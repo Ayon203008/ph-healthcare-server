@@ -1,8 +1,11 @@
 import express, { Request, Response } from "express"
 import { prisma } from "./app/lib/prisma";
 import { IndexRoutes } from "./app/routes";
+// import { toNodeHandler } from "better-auth/node";
+// import { auth } from "./app/lib/auth";
 const app = express()
 
+// app.all("/api/auth/*", toNodeHandler(auth));
 app.use(express.json());
 // * make sure always it will be top of the codes
 
