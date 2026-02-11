@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": "./", // * Make the root director to (./) only
     "outDir": "./dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -11,6 +11,8 @@
     "strict": true,
     "ignoreDeprecations": "6.0"
   },
-  "include": ["src"],
+  "include": ["src","prisma.config.ts"], // * include "src" and "prisma.config.ts"
   "exclude": ["node_modules","dist"]
 }
+
+

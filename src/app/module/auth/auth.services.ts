@@ -1,27 +1,51 @@
+import { UserStatus } from "../../../generated/prisma/enums";
 import { auth } from "../../lib/auth";
 
-interface IRegisterPatientPayload{
-    name:string,
-    email:string,
-    password:string
+interface IRegisterPatientPayload {
+    name: string,
+    email: string,
+    password: string
 }
-const registerPatient = async(payload:IRegisterPatientPayload)=>{
-    const {name,email,password}=payload
+
+const registerPatient = async (payload: IRegisterPatientPayload) => {
+    const { name, email, password } = payload
 
     const data = await auth.api.signUpEmail({
-        body:{
+        body: {
             name,
             email,
             password
             // * role and needPasswordChange will go as default values
         }
     })
-    if(!data.user){
+    if (!data.user) {
         throw new Error("Failed to register password")
     }
     return data
 }
+interface ILoginUserPayload {
+    email: string,
+    password: string
+}
 
-export const AuthService={
- registerPatient
+const loginUser = async (paylaod: ILoginUserPayload) => {
+    const { email, password } = paylaod
+    const data = await auth.api.signInEmail({
+        body: {
+            email,
+            password
+        }
+    })
+    if (data.user.status === UserStatus.BLOCKED) {
+        throw new Error("User is blocked")
+    }
+    if (data.user.isDeleted || data.user.status === UserStatus.DELETED) {
+        throw new Error("User is deleted")
+    }
+    return data
+}
+
+export const AuthService = {
+    registerPatient,
+    loginUser
 }

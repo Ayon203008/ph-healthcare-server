@@ -1,4 +1,4 @@
-import { betterAuth, boolean } from "better-auth";
+import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { Role, UserStatus } from "../../generated/prisma/enums";
@@ -25,7 +25,7 @@ export const auth = betterAuth({
                 required: true,
                 defaultValue: UserStatus.ACTIVE
             },
-            needPasswordChnage: {
+            needPasswordChange: {
                 type: "boolean",
                 required: true,
                 defaultValue: false
@@ -33,9 +33,10 @@ export const auth = betterAuth({
             isDeleted: {
                 type: "boolean",
                 required: false,// * Must be false not true
-                defaultValue: null
+                defaultValue: false
 
             }
         }
-    }
+    },
+   
 });

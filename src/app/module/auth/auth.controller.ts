@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../shared/catchAsync";
 import { AuthService } from "./auth.services";
 import { sendResponse } from "../../shared/SendResponse";
+
+
 const registerPatient = catchAsync(
     async (req: Request, res: Response) => {
         const paylaod = req.body
@@ -15,6 +17,24 @@ const registerPatient = catchAsync(
         })
     }
 )
+
+
+
+const  LoginUser = catchAsync(
+    async(req:Request,res:Response)=>{
+        const payload=req.body
+        const result = await AuthService.loginUser(payload)
+        sendResponse(res,{
+            httpStatusCode:200,
+            success:true,
+            message:"User logged in successfully",
+            data:result
+        })
+    }
+)
+
+
 export const AuthController = {
-    registerPatient
+    registerPatient,
+    LoginUser
 }
