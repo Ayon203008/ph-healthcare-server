@@ -1,8 +1,13 @@
 import { UserStatus } from "../../../generated/prisma/enums";
 import { auth } from "../../lib/auth";
+import { prisma } from "../../lib/prisma";
 
 interface IRegisterPatientPayload {
     name: string,
+    email: string,
+    password: string
+}
+interface ILoginUserPayload {
     email: string,
     password: string
 }
@@ -21,11 +26,21 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
     if (!data.user) {
         throw new Error("Failed to register password")
     }
-    return data
-}
-interface ILoginUserPayload {
-    email: string,
-    password: string
+    const paitent = await prisma.$transaction(async (tx) => {
+        const paitentTx = await tx.patient.create({
+            data: {
+                userId: data.user.id,
+                name: payload.name,
+                email: payload.email
+                // * make the contact number optional to the paitent.prisma schema other wise you will get error
+            }
+        })
+        return paitentTx
+    })
+    return {
+        ...data,
+        paitent
+    }
 }
 
 const loginUser = async (paylaod: ILoginUserPayload) => {

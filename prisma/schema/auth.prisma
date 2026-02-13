@@ -8,13 +8,14 @@ model User {
   role               Role       @default(PATIENT) // add role
   status             UserStatus @default(ACTIVE) // add status
   needPasswordChange Boolean    @default(false) // add needPasswordChnage
-  isDeleted          Boolean   @default(false) // add isDeleted
+  isDeleted          Boolean    @default(false) // add isDeleted
   deletedAt          DateTime?
   image              String?
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
   sessions           Session[]
   accounts           Account[]
+  patient            Patient?  // * Connected with the patient model in the patient schema
 
   @@unique([email])
   @@map("user")
