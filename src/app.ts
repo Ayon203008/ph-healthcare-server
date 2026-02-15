@@ -1,11 +1,9 @@
-import express, { Request, Response } from "express"
+import express, { NextFunction, Request, Response } from "express"
 import { prisma } from "./app/lib/prisma";
 import { IndexRoutes } from "./app/routes";
-// import { toNodeHandler } from "better-auth/node";
-// import { auth } from "./app/lib/auth";
+
 const app = express()
 
-// app.all("/api/auth/*", toNodeHandler(auth));
 app.use(express.json());
 // * make sure always it will be top of the codes
 
@@ -13,14 +11,9 @@ app.use("/api/v1",IndexRoutes)
 // * calling the function
 
 
-
-
-// Enable URL-encoded form data parsing
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware to parse JSON bodies
 
-// Basic route
 app.get('/', async (req: Request, res: Response) => {
 
     const specialty = await prisma.specialty.create({
@@ -37,6 +30,10 @@ app.get('/', async (req: Request, res: Response) => {
 
     res.send('Hello, TypeScript + Express!');
 });
+
+// * make  Global error handler 
+
+app.use()
 
 
 export default app

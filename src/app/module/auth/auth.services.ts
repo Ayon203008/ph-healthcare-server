@@ -26,20 +26,30 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
     if (!data.user) {
         throw new Error("Failed to register password")
     }
-    const paitent = await prisma.$transaction(async (tx) => {
-        const paitentTx = await tx.patient.create({
-            data: {
-                userId: data.user.id,
-                name: payload.name,
-                email: payload.email
-                // * make the contact number optional to the paitent.prisma schema other wise you will get error
+    try { // * add this try catch method
+        const paitent = await prisma.$transaction(async (tx) => {
+            const paitentTx = await tx.patient.create({
+                data: {
+                    userId: data.user.id,
+                    name: payload.name,
+                    email: payload.email
+                    // * make the contact number optional to the paitent.prisma schema other wise you will get error
+                }
+            })
+            return paitentTx
+        })
+        return {
+            ...data,
+            paitent
+        }
+    } catch (error) {
+        console.log(error)
+        await prisma.user.delete({ // * add this delete method to the catch function
+            where:{
+                id:data.user.id
             }
         })
-        return paitentTx
-    })
-    return {
-        ...data,
-        paitent
+        throw error;
     }
 }
 

@@ -12,13 +12,29 @@ model Patient {
     updatedAt     DateTime  @updatedAt
 
     // relations
-
     userId String @unique 
     user   User   @relation(fields: [userId], references: [id],onDelete:Cascade,onUpdate:Cascade)
 
     // * Connected with the User model 
+    
+    // ! must do this map
     @@index([email],name:"idx_patient_email")
     @@index([isDeleted],name:"idx_patient_isDeleted")
     @@map("patient")
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
