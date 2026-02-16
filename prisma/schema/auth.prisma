@@ -15,7 +15,8 @@ model User {
   updatedAt          DateTime   @updatedAt
   sessions           Session[]
   accounts           Account[]
-  patient            Patient?  // * Connected with the patient model in the patient schema
+  patient            Patient? // * Connected with the patient model in the patient schema
+  doctor             Doctor? // * Connected with the Doctor model in the Doctor schema
 
   @@unique([email])
   @@map("user")

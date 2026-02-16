@@ -1,6 +1,8 @@
-import express, { NextFunction, Request, Response } from "express"
+import express, {  Request, Response } from "express"
 import { prisma } from "./app/lib/prisma";
 import { IndexRoutes } from "./app/routes";
+import { globalErrorHandler } from "./app/middleware/globalErrorhandler";
+import { notFound } from "./app/middleware/notFound";
 
 const app = express()
 
@@ -33,7 +35,11 @@ app.get('/', async (req: Request, res: Response) => {
 
 // * make  Global error handler 
 
-app.use()
+app.use(globalErrorHandler) // * give global error handeler here
 
+app.use(notFound) // * Use notfound function here
 
 export default app
+
+
+

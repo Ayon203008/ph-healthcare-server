@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../shared/catchAsync";
 import { AuthService } from "./auth.services";
 import { sendResponse } from "../../shared/SendResponse";
+import status from "http-status";
 
 
 const registerPatient = catchAsync(
@@ -25,7 +26,7 @@ const  LoginUser = catchAsync(
         const payload=req.body
         const result = await AuthService.loginUser(payload)
         sendResponse(res,{
-            httpStatusCode:200,
+            httpStatusCode:status.OK, // * Change the status also
             success:true,
             message:"User logged in successfully",
             data:result
