@@ -1,26 +1,22 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../../shared/catchAsync";
-import { UserServices } from "./user.service";
+import { DoctorServices } from "./doctor.service";
 import { sendResponse } from "../../shared/SendResponse";
 import status from "http-status";
 
-const createDoctor = catchAsync(
+const GetAllDoctor=catchAsync(
     async(req:Request,res:Response)=>{
-        const payload= req.body
-        const result = await UserServices.createDoctor(payload)
-        
+        const result= await DoctorServices.getAllDoctor()
         sendResponse(res,{
             httpStatusCode:status.CREATED,
             success:true,
-            message:"Doctor registered successfully",
+            message:"All doctor fetched successfully",
             data:result
         })
-
     }
 )
 
 
-export const UserController={
-    createDoctor
+export const DoctorController={
+    GetAllDoctor
 }
-

@@ -10,6 +10,7 @@ const createSpecilaty = catchAsync(
         const paylod = req.body
         const result = await SpecilatyService.createSpecilaty(paylod)
         // * Use of sendResponse function
+        console.log(result)
         sendResponse(res,{
             httpStatusCode:201,
             success:true,
@@ -18,6 +19,8 @@ const createSpecilaty = catchAsync(
         })
     }
 )
+
+
 const getAllSpecilaty = catchAsync(
     async (req: Request, res: Response) => {
         const result = await SpecilatyService.getAllSpecilaty()

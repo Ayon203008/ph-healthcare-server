@@ -8,12 +8,12 @@ const app = express()
 
 app.use(express.json());
 // * make sure always it will be top of the codes
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1",IndexRoutes)
 // * calling the function
 
 
-app.use(express.urlencoded({ extended: true }));
 
 
 app.get('/', async (req: Request, res: Response) => {
