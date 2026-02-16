@@ -14,6 +14,11 @@ const getAllDoctor = async () => {
     return doctors
 }
 
+// * get doctor by id
+
+// * update doctor
+
+// * delete doctor
 
 export const DoctorServices = {
     getAllDoctor
