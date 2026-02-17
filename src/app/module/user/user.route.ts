@@ -19,10 +19,3 @@ router.post("/create-doctor",validateRequest(createDoctorZodSchema), UserControl
 export const UserRoutes = router
 
 
-
-
-
-
-
-
-
