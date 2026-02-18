@@ -1,4 +1,6 @@
+import status from "http-status";
 import { UserStatus } from "../../../generated/prisma/enums";
+import AppError from "../../errorHelpers/AppErrro";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 
@@ -65,7 +67,8 @@ const loginUser = async (paylaod: ILoginUserPayload) => {
         throw new Error("User is blocked")
     }
     if (data.user.isDeleted || data.user.status === UserStatus.DELETED) {
-        throw new Error("User is deleted")
+        // * Use of the customize AppError
+        throw new AppError(status.BAD_REQUEST,"Failed  to register patient")
     }
     return data
 }

@@ -1,4 +1,6 @@
 import dotenv from 'dotenv'
+import AppError from '../app/errorHelpers/AppErrro'
+import status from 'http-status'
 dotenv.config()
 
 interface EnvConfig {
@@ -17,9 +19,12 @@ const loadEnvVariables = (): EnvConfig => {
     ]
     requiredEnvVariables.forEach((variable) => {
         if (!process.env[variable]) {
-            throw new Error(`Enviroment variable ${variable} is required but not set .env file`)
+            // * throw new Error(`Enviroment variable ${variable} is required but not set .env file`)
+            // ! Use of the customize AppError
+            throw new AppError(status.INTERNAL_SERVER_ERROR,`Enviroment variable ${variable} is required but not set in the .env file`)
         }
     })
+    
     return {
         PORT: process.env.PORT as string,
         DATABASE_URL: process.env.DATABASE_URL as string,

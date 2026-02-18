@@ -4,11 +4,12 @@ export interface TErrorSources {
 }
 
 export interface TErrorResponse {
-    statusCode:number,
+    statusCode:number, // * add the status code also
     success: boolean,
     message: string,
     errorSources: TErrorSources[],
-    error?: unknown
+    error?: unknown,
+    stack?:string
 }
 
 
