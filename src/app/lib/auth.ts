@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { Role, UserStatus } from "../../generated/prisma/enums";
+
 // If your Prisma file is located elsewhere, you can change the path
 
 // ! remove the prisma client and import it from ./prisma 
@@ -33,10 +34,17 @@ export const auth = betterAuth({
             isDeleted: {
                 type: "boolean",
                 required: false,// * Must be false not true
-                defaultValue: false
+                defaultValue: null
 
             }
         }
     },
-   
+    session: {
+        expiresIn: 60 * 60 * 60 * 24, // * 1 day
+        updateAge: 60 * 60 * 60 * 24, // * 1 day
+        cookieCache: {
+            enabled: true,
+            maxAge: 60 * 60 * 60 * 24, // * 1 day
+        }
+    }
 });

@@ -3,6 +3,8 @@ import { UserStatus } from "../../../generated/prisma/enums";
 import AppError from "../../errorHelpers/AppErrro";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
+import { TokenUtils } from "../../utils/token";
+import { da } from "zod/locales";
 
 interface IRegisterPatientPayload {
     name: string,
@@ -70,7 +72,29 @@ const loginUser = async (paylaod: ILoginUserPayload) => {
         // * Use of the customize AppError
         throw new AppError(status.BAD_REQUEST,"Failed  to register patient")
     }
-    return data
+
+    const accessToken=TokenUtils.getAccessToken({
+        userId:data.user.id,
+        role:data.user.role,
+        name:data.user.name,
+        email:data.user.email,
+        status:data.user.status,
+        isDeleted:data.user.isDeleted,
+        emailVerified:data.user.emailVerified
+    })
+
+    const refreshToken=TokenUtils.getRefeshToken({
+        userId:data.user.id,
+        role:data.user.role,
+        name:data.user.name,
+        email:data.user.email,
+        status:data.user.status,
+        isDeleted:data.user.isDeleted,
+        emailVerified:data.user.emailVerified
+    })
+
+
+    return { ...data, accessToken, refreshToken  }
 }
 
 export const AuthService = {
